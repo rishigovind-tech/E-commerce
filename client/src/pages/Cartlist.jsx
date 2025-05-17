@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { removeFromCartlist } from "../feature/cartlistSlice";
+import { removeFromCart } from "../feature/cartlistSlice";
 import { useNavigate } from "react-router-dom";
 
 
@@ -56,13 +56,13 @@ const Cartlist = () => {
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    dispatch(removeFromCartlist(product.productID));
+                    dispatch(removeFromCart(product.productID));
                   }}
                   className="mt-4 text-sm font-medium text-white bg-[#F28C82] hover:bg-[#f26d63] px-4 py-2 rounded-full"
                 >
                   Remove from Bag
                 </button>
-                <button onClick={makePayment} className="mt-4 text-sm font-medium text-white bg-[#F28C82] hover:bg-[#f26d63] px-4 py-2 rounded-full">
+                <button  className="mt-4 text-sm font-medium text-white bg-[#F28C82] hover:bg-[#f26d63] px-4 py-2 rounded-full">
                   Place the Order
                 </button>
               </div>

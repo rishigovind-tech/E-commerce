@@ -146,7 +146,7 @@ const Signup = () => {
           <div className="flex items-center justify-between mt-4">
             <span className="w-1/5 border-b border-gray-600 md:w-1/4"></span>
             <Link
-              to="/"
+              to="/signin"
               className="text-xs uppercase text-gray-400 hover:underline"
             >
               or sign in

@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { removeFromWishlist } from "../feature/wishlistSlice";
 import { useNavigate } from "react-router-dom";
-import { addToCartlist } from "../feature/cartlistSlice";
+import { addToCart } from "../feature/cartlistSlice";
 
 
 const WishlistPage = () => {
@@ -11,7 +11,7 @@ const WishlistPage = () => {
   const dispatch = useDispatch();
 
   const handleAddToCart = (productbyid) => {
-    dispatch(addToCartlist(productbyid));
+    dispatch(addToCart(productbyid));
   };
 
   return (

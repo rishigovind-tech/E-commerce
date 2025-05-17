@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import logo from "../assets/logo.png";
 import { IoMdSearch } from "react-icons/io";
 import { FaCaretDown, FaCartShopping } from "react-icons/fa6";
@@ -6,7 +6,9 @@ import { FaRegUser } from "react-icons/fa";
 import { BsHandbagFill } from "react-icons/bs";
 import { FaHeart } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../feature/authSlice";
+import toast from "react-hot-toast";
 
 const Menu = [
   {
@@ -57,6 +59,24 @@ const DropdownLinks = [
 const Navbar = () => {
   const wishlistItems = useSelector((state) => state.wishlist.items);
   const cartlistItems = useSelector((state) => state.cartlist.items);
+  const { user } = useSelector((state) => state.auth);
+  const dispatch=useDispatch();
+  console.log(user);
+
+  // ------------------------
+
+  const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowDropdown(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
     <div className=" shadow-md bg-white">
@@ -114,7 +134,7 @@ const Navbar = () => {
               </button>
             </Link>
           </div>
-          <div className=" flex justify-center items-center">
+          {/* <div className=" flex justify-center items-center">
             <Link to={"/signin"}>
               <button className="relative bg-gradient-to-r to-[#F28C82] from-[#6B4E71] transition-all duration-300 ease-in-out text-white py-4 px-4 rounded-full flex items-center gap-5 group">
                 <span className="transition-all duration-300 ease-in-out group-hover:block hidden">
@@ -123,7 +143,59 @@ const Navbar = () => {
                 <FaRegUser className="text-xl text-white drop-shadow-sm cursor-pointer transition-all duration-300 ease-in-out" />
               </button>
             </Link>
+           
+             <p>{user?.fullname}</p>
+            
+           
+          </div> */}
+
+          {/* ------------------------------ */}
+
+          <div
+            className="relative flex justify-center items-center"
+            ref={dropdownRef}
+          >
+            {!user ? (
+              <Link to={"/signin"}>
+                <button className="relative bg-gradient-to-r to-[#F28C82] from-[#6B4E71] transition-all duration-300 ease-in-out text-white py-4 px-4 rounded-full flex items-center gap-5 group">
+                  <span className="transition-all duration-300 ease-in-out group-hover:block hidden">
+                    Sign in / Sign up
+                  </span>
+                  <FaRegUser className="text-xl text-white drop-shadow-sm cursor-pointer transition-all duration-300 ease-in-out" />
+                </button>
+              </Link>
+            ) : (
+              <>
+                <button
+                  onClick={() => setShowDropdown(!showDropdown)}
+                  className="bg-gradient-to-r to-[#F28C82] from-[#6B4E71] text-white py-2 px-4 rounded-full flex items-center gap-2"
+                >
+                  <FaRegUser className="text-xl" />
+                </button>
+                {showDropdown && (
+                  <div className="absolute right-5 top-10 mt-2 bg-white text-black shadow-md rounded-md z-50 w-[160px]">
+                    <div className="px-4 py-2 border-b font-medium">
+                      {user.fullname}
+                    </div>
+                    <button
+                      onClick={() => {
+                        dispatch(logout())
+                        console.log("Logging out");
+                        toast.success("Logout Successfully");
+                        setShowDropdown(false);
+                        
+                      }}
+                      className="w-full text-left px-4 py-2 hover:bg-[#FBE4D6]"
+                    >
+                      
+                      Logout
+                    </button>
+                  </div>
+                )}
+              </>
+            )}
           </div>
+          {/* -------------------------------- */}
         </div>
       </div>
       {/* lower navbar */}

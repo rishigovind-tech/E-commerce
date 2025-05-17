@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../config/axiosConfig";
 import toast from "react-hot-toast";
 
@@ -9,6 +9,8 @@ const Signin = () => {
     password: "",
   });
 
+  const navigate = useNavigate();
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormValue({ ...formValues, [name]: value });
@@ -17,10 +19,11 @@ const Signin = () => {
   const handleLogin = (e) => {
     e.preventDefault();
     axiosInstance
-      .post("/login", formValues)
+      .post("/login", formValues, { withCredentials: true })
       .then((res) => {
         console.log(res);
         toast.success(res.data.message);
+        navigate("/");
         setFormValue({
           email: "",
           password: "",

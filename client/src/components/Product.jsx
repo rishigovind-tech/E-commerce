@@ -18,7 +18,7 @@ const Product = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axiosInstance.get("/products");
+        const response = await axiosInstance.get("/products",{withCredentials:true});
         setProductsData(response.data.product);
         console.log(response);
       } catch (error) {

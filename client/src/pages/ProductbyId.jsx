@@ -8,7 +8,8 @@ import { BsHandbagFill } from "react-icons/bs";
 import { FaRegHeart } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { addToWishlist } from "../feature/wishlistSlice";
-import { addToCartlist } from "../feature/cartlistSlice";
+import { addToCart } from "../feature/cartlistSlice";
+import toast from "react-hot-toast";
 
 const ProductbyId = () => {
   const [productbyid, setProductbyid] = useState([]);
@@ -17,11 +18,13 @@ const ProductbyId = () => {
 
   const dispatch = useDispatch();
   const handleAddToWishlist = () => {
+     toast.success("Added to Wishlist")
     dispatch(addToWishlist(productbyid));
   };
 
   const handleAddToCart = () => {
-    dispatch(addToCartlist(productbyid));
+    toast.success("Added to Cart")
+    dispatch(addToCart(productbyid));
   };
 
   useEffect(() => {
